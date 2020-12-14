@@ -36,11 +36,13 @@ def filter_image(image, face_location, kernel: list):
 for path in paths:
     file_name = path.name
     image = face_recognition.load_image_file(path)
+    # print(image)
     face_locations = face_recognition.face_locations(image)
+    print(face_locations)
     for face_location in face_locations:
         for i in range(15):
             # image_blur = filter_image(image, face_location, blur_kernel)
-            image_sharp = filter_image(image, face_location, sharpen_kernel)
+            image_sharp = filter_image(image, face_location, blur_kernel)
     # pil_image_blur = Image.fromarray(image_blur)
     # pil_image_blur.save(f"out/blurred_{file_name}")
     pil_image_sharp = Image.fromarray(image_sharp)
