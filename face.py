@@ -17,6 +17,27 @@ sharpen_kernel = [
 ]
 
 
+# def blur(image, x, y):
+#     for i in range(3):
+#         total = 0
+#         for vertikal in range(-1, 2):
+#             for horizontal in range(-1, 2):
+#                 total += (image[vertikal+y][horizontal+x][i] *
+#                           blur_kernel[vertikal+1][horizontal+1])
+#         image[y][x][i] = total
+#     return image
+
+
+# def sharpen(image, x, y):
+#     for i in range(3):
+#         total = 0
+#         for vertikal in range(-1, 2):
+#             for horizontal in range(-1, 2):
+#                 total += (image[vertikal+y][horizontal+x][i] *
+#                           sharpen_kernel[vertikal+1][horizontal+1])
+#         image[y][x][i] = total
+#     return image
+
 def blur(image, x, y):
     skala = 3
     padding = int(skala/2)

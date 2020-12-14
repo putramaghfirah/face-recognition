@@ -19,33 +19,17 @@ sharpen_kernel = [
 ]
 
 
-def blur(image, x, y):
-    for i in range(3):
-        total = 0
-        for vertikal in range(-1, 2):
-            for horizontal in range(-1, 2):
-                total += (image[vertikal+y][horizontal+x][i] *
-                          blur_kernel[vertikal+1][horizontal+1])
-        image[y][x][i] = total
-    return image
-
-
-def sharpen(image, x, y):
-    for i in range(3):
-        total = 0
-        for vertikal in range(-1, 2):
-            for horizontal in range(-1, 2):
-                total += (image[vertikal+y][horizontal+x][i] *
-                          sharpen_kernel[vertikal+1][horizontal+1])
-        image[y][x][i] = total
-    return image
-
-
-def filter_image(image, face_location, method):
+def filter_image(image, face_location, kernel: list):
     top, right, bottom, left = face_location
     for y in range(top, bottom):
         for x in range(left, right):
-            image = method(image, x, y)
+            for i in range(3):
+                total = 0
+                for vertikal in range(-1, 2):
+                    for horizontal in range(-1, 2):
+                        total += (image[vertikal+y][horizontal+x][i] *
+                                  kernel[vertikal+1][horizontal+1])
+                image[y][x][i] = total
     return image
 
 
@@ -54,6 +38,10 @@ for path in paths:
     image = face_recognition.load_image_file(path)
     face_locations = face_recognition.face_locations(image)
     for face_location in face_locations:
-        image = filter_image(image, face_location, sharpen)
-    pil_image = Image.fromarray(image)
-    pil_image.save(f"out/blurred_{file_name}")
+        for i in range(15):
+            # image_blur = filter_image(image, face_location, blur_kernel)
+            image_sharp = filter_image(image, face_location, sharpen_kernel)
+    # pil_image_blur = Image.fromarray(image_blur)
+    # pil_image_blur.save(f"out/blurred_{file_name}")
+    pil_image_sharp = Image.fromarray(image_sharp)
+    pil_image_sharp.save(f"out/sharped_{file_name}")
