@@ -30,9 +30,8 @@ black_kernel = [
     [0.05, 0.05, 0.05]
 ]
 
+
 # fungsi untuk menfilter image dengan paramater foto, lokasi wajah, dan kernel dari filter
-
-
 def filter_image(image, face_location, kernel: list):
     # membagi lokasi wajah ke dalam top, right, bottom, left
     top, right, bottom, left = face_location
