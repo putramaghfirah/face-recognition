@@ -1,4 +1,5 @@
 import face_recognition
+import copy
 from pathlib import Path
 from PIL import Image
 
@@ -10,7 +11,7 @@ blur_kernel = [
     [1/16, 1/8, 1/16]
 ]
 
-weight = 0.02
+weight = 0.04
 
 sharpen_kernel = [
     [0, -1 * weight, 0, ],
@@ -34,16 +35,19 @@ def filter_image(image, face_location, kernel: list):
 
 
 for path in paths:
+    print(f"Memfilter foto {path}")
     file_name = path.name
     image = face_recognition.load_image_file(path)
-    # print(image)
+    image_blur = copy.deepcopy(image)
+    image_sharp = copy.deepcopy(image)
     face_locations = face_recognition.face_locations(image)
-    print(face_locations)
+    print(f"Lokasi wajah : {face_locations}")
     for face_location in face_locations:
-        for i in range(15):
-            # image_blur = filter_image(image, face_location, blur_kernel)
-            image_sharp = filter_image(image, face_location, blur_kernel)
-    # pil_image_blur = Image.fromarray(image_blur)
-    # pil_image_blur.save(f"out/blurred_{file_name}")
-    pil_image_sharp = Image.fromarray(image_sharp)
+        # for i in range(5):
+        blur = filter_image(image_blur, face_location, blur_kernel)
+        sharp = filter_image(image_sharp, face_location, sharpen_kernel)
+    pil_image_blur = Image.fromarray(blur)
+    pil_image_blur.save(f"out/blurred_{file_name}")
+    pil_image_sharp = Image.fromarray(sharp)
     pil_image_sharp.save(f"out/sharped_{file_name}")
+    print(f"foto {path.name} telah difilter")
