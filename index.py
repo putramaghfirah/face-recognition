@@ -23,8 +23,16 @@ sharpen_kernel = [
     [0, -1 * weight, 0, ]
 ]
 
+# black kernel
+black_kernel = [
+    [0.05, 0.05, 0.05],
+    [0.05, 0.05, 0.05],
+    [0.05, 0.05, 0.05]
+]
 
 # fungsi untuk menfilter image dengan paramater foto, lokasi wajah, dan kernel dari filter
+
+
 def filter_image(image, face_location, kernel: list):
     # membagi lokasi wajah ke dalam top, right, bottom, left
     top, right, bottom, left = face_location
@@ -58,18 +66,23 @@ for path in paths:
     # mengcopy tiap foto agar tidak menimpa hasil filternya
     image_blur = copy.deepcopy(image)
     image_sharp = copy.deepcopy(image)
+    image_black = copy.deepcopy(image)
     # mengambil wajah yang ada dari tiap foto
     face_locations = face_recognition.face_locations(image)
     print(f"Lokasi wajah : {face_locations}")
     # melakukan filter terhadap wajah yang didapat dari sebuah foto
     for face_location in face_locations:
         # for i in range(5):
-        # melakukan filter blur/sharp
+        # melakukan filter blur/sharp/black
         blur = filter_image(image_blur, face_location, blur_kernel)
         sharp = filter_image(image_sharp, face_location, sharpen_kernel)
+        black = filter_image(image_black, face_location, black_kernel)
+
     # menyimpan hasil filter ke dalam pil_image lalu save foto yang telah difilter
     pil_image_blur = Image.fromarray(blur)
     pil_image_blur.save(f"out/blurred_{file_name}")
     pil_image_sharp = Image.fromarray(sharp)
     pil_image_sharp.save(f"out/sharped_{file_name}")
+    pil_image_black = Image.fromarray(black)
+    pil_image_black.save(f"out/black_{file_name}")
     print(f"foto {path.name} telah difilter")
