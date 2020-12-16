@@ -16,7 +16,7 @@ blur_kernel = [
     [1/25, 1/25, 1/25, 1/25, 1/25]
 ]
 
-weight = 0.04
+weight = 0.01
 
 # kernel untuk sharp
 sharpen_kernel = [
