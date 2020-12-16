@@ -9,9 +9,11 @@ paths = [path for path in Path('img').glob('*.jpg')]
 
 # kernel untuk blur
 blur_kernel = [
-    [1/16, 1/8, 1/16],
-    [1/8, 1/4, 1/8],
-    [1/16, 1/8, 1/16]
+    [1/25, 1/25, 1/25, 1/25, 1/25],
+    [1/25, 1/25, 1/25, 1/25, 1/25],
+    [1/25, 1/25, 1/25, 1/25, 1/25],
+    [1/25, 1/25, 1/25, 1/25, 1/25],
+    [1/25, 1/25, 1/25, 1/25, 1/25]
 ]
 
 weight = 0.04
@@ -35,6 +37,8 @@ black_kernel = [
 def filter_image(image, face_location, kernel: list):
     # membagi lokasi wajah ke dalam top, right, bottom, left
     top, right, bottom, left = face_location
+    # padding untuk skalanya agar sama dengan kernel
+    padding = int(len(kernel)/2)
     # melakukan looping untuk vertikal dari top ke bottom
     for y in range(top, bottom):
         # melakukan looping untuk horizontal dari left ke right
@@ -44,8 +48,8 @@ def filter_image(image, face_location, kernel: list):
                 # variabel total untuk menyimpan hasil perkalian kernel dengan pixel-pixel tiap foto
                 total = 0
                 # membuat skala 3x3
-                for vertikal in range(-1, 2):
-                    for horizontal in range(-1, 2):
+                for vertikal in range(0-padding, padding+1):
+                    for horizontal in range(0-padding, padding+1):
                         # menjumlahkan total dengan image dikali dengan kernel
                         total += (image[vertikal+y][horizontal+x][i] *
                                   kernel[vertikal+1][horizontal+1])
