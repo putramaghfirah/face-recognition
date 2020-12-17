@@ -4,8 +4,14 @@ import copy
 from pathlib import Path
 from PIL import Image
 
+# membuat direktori out jika belum ada
+out = Path('out')
+# exist_ok agar jika sudah ada foldernya maka tidak perlu dibuat lagi
+out.mkdir(parents=True, exist_ok=True)
+
 # mengambil tiap foto yang ada di dalam direktori img
 paths = [path for path in Path('img').glob('*.jpg')]
+
 
 # kernel untuk blur
 blur_kernel = [
@@ -52,7 +58,7 @@ def filter_image(image, face_location, kernel: list):
                     for horizontal in range(0-padding, padding+1):
                         # menjumlahkan total dengan image dikali dengan kernel
                         total += (image[vertikal+y][horizontal+x][i] *
-                                  kernel[vertikal+1][horizontal+1])
+                                  kernel[vertikal+padding][horizontal+padding])
                 # hasil dari total dimasukkan ke dalam tiap pixel image
                 image[y][x][i] = total
     # lalu mengembalikan hasil dari image
